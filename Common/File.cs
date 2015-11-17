@@ -10,16 +10,8 @@ namespace Common
     /// <summary>
     /// File関連処理クラス（C#版）
     /// </summary>
-    public class File
+    public static class File
     {
-        /// <summary>
-        /// コンストラクタ（プライベートとして宣言しNewできないようにする）
-        /// </summary>
-        private File()
-        {
-            //NOP
-        }
-
         /// <summary>
         /// パスの最後に\を付ける
         /// </summary>

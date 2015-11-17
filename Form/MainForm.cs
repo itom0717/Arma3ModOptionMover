@@ -100,28 +100,21 @@ namespace Arma3ModOptionMover
             try
             {
                 //サーバ設定情報取得
-                ServerSettings.GetServerSettings();
+                this.ServerSettings.GetServerSettings();
 
+                if ( this.ServerSettings.Count == 0 )
+                {
+                    throw new Exception( Resource.TextResource.ErrMsgNoServerList );
+                }
 
-                //    'サーバー設定データをコンボに表示
-                //    Dim serverList As New ServerList
-                //    serverList.GetServerList( Common.File.CombinePath(Common.File.GetApplicationDirectory,
-                //                                                     ServerListConfigFilename))
-                //    If serverList.Count = 0 Then
-                //      MessageBox.Show(My.Resources.TextResource.ErrMsgNoServerList,
-                //                        My.Application.Info.AssemblyName,
-                //                        MessageBoxButtons.OK,
-                //                        MessageBoxIcon.Information)
-                //      Me.Close()
-                //    End If
-
-                //    'サーバーリストの内容をコンボボックスへセットする
-                //    Me.ServerListComboBox.Items.Clear()
-                //    For i As Integer = 0 To serverList.Count - 1
-                //      Me.ServerListComboBox.Items.Add(serverList(i))
-                //    Next
-                //    Me.ServerListComboBox.SelectedIndex = 0
-                //    Me.ServerListComboBox.DisplayMember = "ServerDisplayName"
+                //サーバーリストの内容をコンボボックスへセットする
+                this.ServerListComboBox.Items.Clear();
+                for ( int i = 0; i < this.ServerSettings.Count; i++ )
+                {
+                    this.ServerListComboBox.Items.Add( this.ServerSettings[i] );
+                }
+                this.ServerListComboBox.SelectedIndex = 0;
+                this.ServerListComboBox.DisplayMember = "ServerName";
 
                 //    '初期値設定
                 //    For i As Integer = 0 To serverList.Count - 1
