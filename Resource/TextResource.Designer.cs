@@ -61,6 +61,24 @@ namespace Arma3ModOptionMover.Resource {
         }
         
         /// <summary>
+        ///   ADD Option に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string AddOptionText {
+            get {
+                return ResourceManager.GetString("AddOptionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Do you want to run the process? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmationMessageGo {
+            get {
+                return ResourceManager.GetString("ConfirmationMessageGo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   There is no server list. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrMsgNoServerList {
@@ -93,6 +111,42 @@ namespace Arma3ModOptionMover.Resource {
         internal static string ErrMsgNotFoundModPath {
             get {
                 return ResourceManager.GetString("ErrMsgNotFoundModPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create ShortCut に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LogTextCreateShortCut {
+            get {
+                return ResourceManager.GetString("LogTextCreateShortCut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Finish Process に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LogTextFinish {
+            get {
+                return ResourceManager.GetString("LogTextFinish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Start Process に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LogTextStart {
+            get {
+                return ResourceManager.GetString("LogTextStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Remove Option に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string RemoveOptionText {
+            get {
+                return ResourceManager.GetString("RemoveOptionText", resourceCulture);
             }
         }
     }

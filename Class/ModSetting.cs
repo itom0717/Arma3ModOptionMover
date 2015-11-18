@@ -39,7 +39,7 @@ namespace Arma3ModOptionMover
         ///  Disable パス情報
         /// </summary>
         /// <returns></returns>
-        public ModPath DisablePathInfo { get; } = new ModPath();
+        public ModPath RemovePathInfo { get; } = new ModPath();
 
         /// <summary>
         /// MOD情報取得
@@ -79,11 +79,11 @@ namespace Arma3ModOptionMover
 
 
                 //Disableパス
-                this.DisablePathInfo.FullPath = Common.File.CombinePath( this.ModFullPath, "_disable" );
-                if ( !Common.File.ExistsDirectory( this.DisablePathInfo.FullPath ) )
+                this.RemovePathInfo.FullPath = Common.File.CombinePath( this.ModFullPath, "_disable" );
+                if ( !Common.File.ExistsDirectory( this.RemovePathInfo.FullPath ) )
                 {
                     //ない場合は作成しておく
-                    Common.File.CreateDirectory( this.DisablePathInfo.FullPath );
+                    Common.File.CreateDirectory( this.RemovePathInfo.FullPath );
                 }
 
 
@@ -91,7 +91,7 @@ namespace Arma3ModOptionMover
                 //各フォルダ内のファイルを調査しておく
                 this.AddonsPathInfo.SearchPboFile();
                 this.OptionalPathInfo.SearchPboFile();
-                this.DisablePathInfo.SearchPboFile();
+                this.RemovePathInfo.SearchPboFile();
             }
             catch
             {

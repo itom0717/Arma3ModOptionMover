@@ -78,6 +78,7 @@
             resources.ApplyResources(this.OKButton, "OKButton");
             this.OKButton.Name = "OKButton";
             this.OKButton.UseVisualStyleBackColor = true;
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // CloseButton
             // 
@@ -99,6 +100,13 @@
             resources.ApplyResources(this.GetModInfoButton, "GetModInfoButton");
             this.GetModInfoButton.Name = "GetModInfoButton";
             this.GetModInfoButton.UseVisualStyleBackColor = true;
+            this.GetModInfoButton.Click += new System.EventHandler(this.GetModInfoButton_Click);
+            // 
+            // SetBackgroundWorker
+            // 
+            this.SetBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.SetBackgroundWorker_DoWork);
+            this.SetBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.SetBackgroundWorker_ProgressChanged);
+            this.SetBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.SetBackgroundWorker_RunWorkerCompleted);
             // 
             // ServerListComboBox
             // 
@@ -106,6 +114,7 @@
             this.ServerListComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ServerListComboBox.FormattingEnabled = true;
             this.ServerListComboBox.Name = "ServerListComboBox";
+            this.ServerListComboBox.SelectedIndexChanged += new System.EventHandler(this.ServerListComboBox_SelectedIndexChanged);
             // 
             // MainForm
             // 

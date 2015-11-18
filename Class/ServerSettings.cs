@@ -45,6 +45,7 @@ namespace Arma3ModOptionMover
                     ServerSetting serverSetting = new ServerSetting();
                     serverSetting.GetServerSetting( tgtFilename );
 
+                    //リストに追加
                     this.Add( serverSetting );
                 }
             }

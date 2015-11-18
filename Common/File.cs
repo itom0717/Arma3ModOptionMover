@@ -716,14 +716,14 @@ namespace Common
         /// <param name="hotkey">ホットキー</param>
         /// <param name="windowStyle">起動時のウィンドウの状態</param>
         public static void CreateShortcut( string shortcutPath ,
-                                            string targetLinkPath ,
-                                            string iocnPath = "" ,
-                                            int iconIndex = 0 ,
-                                            string workingDirectory = "" ,
-                                            string arguments = "" ,
-                                            string description = "" ,
-                                            string hotkey = "" ,
-                                            System.Diagnostics.ProcessWindowStyle windowStyle = System.Diagnostics.ProcessWindowStyle.Normal )
+                                           string targetLinkPath ,
+                                           string iocnPath = "" ,
+                                           int iconIndex = 0 ,
+                                           string workingDirectory = "" ,
+                                           string arguments = "" ,
+                                           string description = "" ,
+                                           string hotkey = "" ,
+                                           System.Diagnostics.ProcessWindowStyle windowStyle = System.Diagnostics.ProcessWindowStyle.Normal )
         {
 
             //WshShellを作成

@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddOptionText" xml:space="preserve">
+    <value>追加オプション</value>
+  </data>
+  <data name="ConfirmationMessageGo" xml:space="preserve">
+    <value>処理を実行しますか？</value>
+  </data>
   <data name="ErrMsgNoServerList" xml:space="preserve">
     <value>サーバーリストがありません。</value>
   </data>
@@ -128,5 +134,17 @@
   </data>
   <data name="ErrMsgNotFoundModPath" xml:space="preserve">
     <value>MODフォルダが見つかりません。（{0}）</value>
+  </data>
+  <data name="LogTextCreateShortCut" xml:space="preserve">
+    <value>ショートカット作成</value>
+  </data>
+  <data name="LogTextFinish" xml:space="preserve">
+    <value>処理が終了しました。</value>
+  </data>
+  <data name="LogTextStart" xml:space="preserve">
+    <value>処理開始</value>
+  </data>
+  <data name="RemoveOptionText" xml:space="preserve">
+    <value>削除オプション</value>
   </data>
 </root>

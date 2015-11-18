@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddOptionText" xml:space="preserve">
+    <value>ADD Option</value>
+  </data>
+  <data name="ConfirmationMessageGo" xml:space="preserve">
+    <value>Do you want to run the process?</value>
+  </data>
   <data name="ErrMsgNoServerList" xml:space="preserve">
     <value>There is no server list.</value>
   </data>
@@ -128,5 +134,17 @@
   </data>
   <data name="ErrMsgNotFoundModPath" xml:space="preserve">
     <value>MOD Path not found. ({0})</value>
+  </data>
+  <data name="LogTextCreateShortCut" xml:space="preserve">
+    <value>Create ShortCut</value>
+  </data>
+  <data name="LogTextFinish" xml:space="preserve">
+    <value>Finish Process</value>
+  </data>
+  <data name="LogTextStart" xml:space="preserve">
+    <value>Start Process</value>
+  </data>
+  <data name="RemoveOptionText" xml:space="preserve">
+    <value>Remove Option</value>
   </data>
 </root>
