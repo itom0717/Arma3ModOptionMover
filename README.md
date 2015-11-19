@@ -11,7 +11,8 @@ Arma3 Mod Option Mover
 
 ## 使い方
 
-1.modフォルダ内の @Arma3ModOptionMover_serverName(serverNameは変更必要)内の　ServerSetting.cfg　を使用
+
+未作成いずれ作成
 
 
 
@@ -27,12 +28,12 @@ MODフォルダ
 　　+-- @sma  
 　　　　+-- addons  
 　　　　+-- optional  
-　　+-- @Arma3ModOptionMover
+　　+-- @Arma3ModOptionMover  
 　　　　+-- Arma3ModOptionMover.exe      <---- このファイルを実行  
 　　　　+-- ServerList.cfg               <---- サーバー設定ファイル  
 　　　　+-- ServerSetting.cfg            <---- 自動でダウンロードされます  
-　　+-- @Arma3ModOptionMover_serverName  <---- サーバー管理者が各自PwSへアップしてください。
-　　　　+-- ServerSetting.cfg            <---- サーバー管理者が各自PwSへアップしてください。
+　　+-- @Arma3ModOptionMover_serverName  <---- サーバー管理者が各自PwSへアップしてください。 
+　　　　+-- ServerSetting.cfg            <---- サーバー管理者が各自PwSへアップしてください。 
 
 ***
 
