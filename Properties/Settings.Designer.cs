@@ -34,5 +34,29 @@ namespace Arma3ModOptionMover.Properties {
                 this["SelectServerName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PreviousModName {
+            get {
+                return ((string)(this["PreviousModName"]));
+            }
+            set {
+                this["PreviousModName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PreviousModOptionPathName {
+            get {
+                return ((string)(this["PreviousModOptionPathName"]));
+            }
+            set {
+                this["PreviousModOptionPathName"] = value;
+            }
+        }
     }
 }

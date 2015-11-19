@@ -45,7 +45,7 @@ namespace Arma3ModOptionMover
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Form_Load( object sender, EventArgs e )
+        private void Form_Load( object sender , EventArgs e )
         {
             //EventHandler
 
@@ -60,10 +60,10 @@ namespace Arma3ModOptionMover
                                  typeof(System.Reflection.AssemblyTitleAttribute ));
 
             //アプリケーションタイトル
-            this.ApplicationTitle =　asmprd.Title;
+            this.ApplicationTitle = asmprd.Title;
 
             //フォームタイトル設定
-            this.Text = String.Format( @"{0} - Ver.{1}", asmprd.Title, assmName.Version );
+            this.Text = String.Format( @"{0} - Ver.{1}" , asmprd.Title , assmName.Version );
 
             //各コントロールの初期化
             this.LogListBox.Items.Clear();
@@ -76,7 +76,7 @@ namespace Arma3ModOptionMover
             string[] cmds = System.Environment.GetCommandLineArgs();
             foreach ( string cmd in cmds )
             {
-                if ( cmd.Equals( CreatedShortCutArguments, StringComparison.CurrentCultureIgnoreCase ) )
+                if ( cmd.Equals( CreatedShortCutArguments , StringComparison.CurrentCultureIgnoreCase ) )
                 {
                     //ショートカットから呼ばれたため、チェックを外す
                     this.CreateShortCutCheckBox.Checked = false;
@@ -101,7 +101,7 @@ namespace Arma3ModOptionMover
         /// <remarks>
         /// 初回表示時に実行
         /// </remarks>
-        private void Form_Shown( object sender, EventArgs e )
+        private void Form_Shown( object sender , EventArgs e )
         {
 
 
@@ -151,9 +151,9 @@ namespace Arma3ModOptionMover
             }
             catch ( Exception ex )
             {
-                MessageBox.Show( ex.Message,
-                                 this.ApplicationTitle,
-                                 MessageBoxButtons.OK,
+                MessageBox.Show( ex.Message ,
+                                 this.ApplicationTitle ,
+                                 MessageBoxButtons.OK ,
                                  MessageBoxIcon.Error );
                 this.Close();
             }
@@ -164,7 +164,7 @@ namespace Arma3ModOptionMover
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CloseButton_Click( object sender, EventArgs e )
+        private void CloseButton_Click( object sender , EventArgs e )
         {
             this.Close();
         }
@@ -174,7 +174,7 @@ namespace Arma3ModOptionMover
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ServerListComboBox_SelectedIndexChanged( object sender, EventArgs e )
+        private void ServerListComboBox_SelectedIndexChanged( object sender , EventArgs e )
         {
             if ( this.DisableServerListComboBoxEvents )
             {
@@ -193,7 +193,7 @@ namespace Arma3ModOptionMover
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GetModInfoButton_Click( object sender, EventArgs e )
+        private void GetModInfoButton_Click( object sender , EventArgs e )
         {
             // Mod情報更新
             this.UpdateModTreeView();
@@ -317,9 +317,9 @@ namespace Arma3ModOptionMover
             }
             catch ( Exception ex )
             {
-                MessageBox.Show( ex.Message,
-                                this.ApplicationTitle,
-                                MessageBoxButtons.OK,
+                MessageBox.Show( ex.Message ,
+                                this.ApplicationTitle ,
+                                MessageBoxButtons.OK ,
                                 MessageBoxIcon.Error );
                 this.Close();
             }
@@ -360,16 +360,16 @@ namespace Arma3ModOptionMover
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OKButton_Click( object sender, EventArgs e )
+        private void OKButton_Click( object sender , EventArgs e )
         {
 
             // Mod情報更新
             this.UpdateModTreeView();
 
             //実行確認
-            if ( MessageBox.Show( Resource.TextResource.ConfirmationMessageGo,
-                                  this.ApplicationTitle,
-                                  MessageBoxButtons.OKCancel,
+            if ( MessageBox.Show( Resource.TextResource.ConfirmationMessageGo ,
+                                  this.ApplicationTitle ,
+                                  MessageBoxButtons.OKCancel ,
                                   MessageBoxIcon.Question ) != DialogResult.OK )
             {
                 return;
@@ -384,6 +384,9 @@ namespace Arma3ModOptionMover
             //選択されたサーバー情報
             var selectedServerSetting = (ServerSetting) this.ServerListComboBox.SelectedItem;
 
+            //今回選択したサーバー名を記憶
+            Properties.Settings.Default.SelectServerName = selectedServerSetting.ServerName;
+            Properties.Settings.Default.Save();
 
             //バックグラウンド処理を開始する
             this.SetBackgroundWorker.WorkerReportsProgress = true;
@@ -400,7 +403,7 @@ namespace Arma3ModOptionMover
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SetBackgroundWorker_DoWork( object sender, DoWorkEventArgs e )
+        private void SetBackgroundWorker_DoWork( object sender , DoWorkEventArgs e )
         {
             try
             {
@@ -412,62 +415,88 @@ namespace Arma3ModOptionMover
 
                 //ProgressChangedイベントハンドラを呼び出し、
                 //コントロールの表示を変更する
-                bw.ReportProgress( 0, LogSeparator );
-                bw.ReportProgress( 0, Resource.TextResource.LogTextStart );
-                bw.ReportProgress( 0, LogSeparator );
-                bw.ReportProgress( 0, "" );
+                bw.ReportProgress( 0 , LogSeparator );
+                bw.ReportProgress( 0 , Resource.TextResource.LogTextStart );
+                bw.ReportProgress( 0 , LogSeparator );
+                bw.ReportProgress( 0 , "" );
 
 
-                //MOD数分ループ
+                /// 前回処理した設定を元に戻す
+                /// </summary>
+                this.RestorePreviousSetting( bw );
+
+                //今回処理したMod名記憶要
+                var modNameList   = new List<string>();
+                var modoptionList = new List<string>();
+
+                //Mod数分ループ
                 foreach ( ModSetting modSetting in selectedServerSetting )
                 {
-                    bw.ReportProgress( 0, LogSeparator );
-                    bw.ReportProgress( 0, "[" + modSetting.ModInfomation.ModName + "]" );
-                    bw.ReportProgress( 0, "" );
+                    //今回処理したmodを記憶
+                    modNameList.Add( modSetting.ModInfomation.ModName );
+                    modoptionList.Add( modSetting.ModInfomation.OptionalsPath  );
 
-#if false
+                    bw.ReportProgress( 0 , LogSeparator );
+                    bw.ReportProgress( 0 , "[" + modSetting.ModInfomation.ModName + "]" );
+                    bw.ReportProgress( 0 , "" );
 
-        'addファイルを処理
-        For Each tgtFile As String In modinfo.ModSetting.AddFile
-          'ファイルをコピー
-          For Each file As String In Common.File.GetFileList(modinfo.OptionalPathInfo.Path, tgtFile & "*", False)
+                    //追加ファイルの処理
+                    foreach ( string tgtFile in modSetting.ModInfomation.AddFile )
+                    {
+                        //optionフォルダからAddonsフォルダへコピー
+                        foreach ( string file in Common.File.GetFileList( modSetting.OptionalPathInfo.FullPath , tgtFile + "*" , false ) )
+                        {
+                            bw.ReportProgress( 0 , Resource.TextResource.LogTextAddFile + Common.File.GetFileName( file ) );
 
-            Me.Invoke(addLog, My.Resources.TextResource.LogTextAddFile & My.Computer.FileSystem.GetName(file))
+                            //Addonsフィルダへコピー処理
+                            Common.File.CopyFile( file ,
+                                                  Common.File.CombinePath( modSetting.AddonsPathInfo .FullPath ,
+                                                                           Common.File.GetFileName( file ) ) ,
+                                                  true );
+                        }
+                    }
+                    bw.ReportProgress( 0 , "" );
 
-            'コピー処理
-            Common.File.CopyFile(file, Common.File.CombinePath(modinfo.AddonsPathInfo.Path, Common.File.GetFileName(file)), True)
-          Next
-        Next
+                    //削除ファイルの処理
+                    foreach ( string tgtFile in modSetting.ModInfomation.RemoveFile )
+                    {
+                        //Addonsフィルダから無効フォルダへ移動
+                        foreach ( string file in Common.File.GetFileList( modSetting.AddonsPathInfo .FullPath , tgtFile + "*" , false ) )
+                        {
+                            bw.ReportProgress( 0 , Resource.TextResource.LogTextRemoveFile + Common.File.GetFileName( file ) );
 
-        Me.Invoke(addLog, "")
+                            if ( !Common.File.ExistsDirectory( modSetting.RemovePathInfo.FullPath ) )
+                            {
+                                //ない場合は作成しておく
+                                Common.File.CreateDirectory( modSetting.RemovePathInfo.FullPath );
+                            }
 
-        'delファイルを処理
-        For Each tgtFile As String In modinfo.ModSetting.DelFile
 
-          For Each file As String In Common.File.GetFileList(modinfo.AddonsPathInfo.Path, tgtFile & "*", False)
-
-            Me.Invoke(addLog, My.Resources.TextResource.LogTextDelFile & My.Computer.FileSystem.GetName(file))
-
-            'disableへコピーして削除
-            Common.File.CopyFile(file, Common.File.CombinePath(modinfo.DisablePathInfo.Path, Common.File.GetFileName(file)), True)
-
-            '削除
-            Common.File.DeleteFile(file)
-          Next
-        Next
-
-        Me.Invoke(addLog, "")
-        Me.Invoke(addLog, "")
-#endif
+                            //Removeフィルダへコピー処理
+                            Common.File.CopyFile( file ,
+                                                  Common.File.CombinePath( modSetting.RemovePathInfo.FullPath ,
+                                                                           Common.File.GetFileName( file ) ) ,
+                                                  true );
+                            //コピーできたら削除
+                            Common.File.DeleteFile( file );
+                        }
+                    }
+                    bw.ReportProgress( 0 , "" );
+                    bw.ReportProgress( 0 , "" );
                 }
 
+
+                //前回実施した移動等を元に戻す為にMod情報記憶(タブ区切り)
+                Properties.Settings.Default.PreviousModName           = String.Join( "\t" , modNameList );
+                Properties.Settings.Default.PreviousModOptionPathName = String.Join( "\t" , modoptionList );
+                Properties.Settings.Default.Save();
 
 
                 //ショートカット作成
                 if ( this.CreateShortCutCheckBox.Checked )
                 {
                     //ショートカット作成
-                    bw.ReportProgress( 0, Resource.TextResource.LogTextCreateShortCut );
+                    bw.ReportProgress( 0 , Resource.TextResource.LogTextCreateShortCut );
 
                     //作成するショートカットのパス
                     string shortcutPath = Common.File.GetDesktopDirectory() +  this.ApplicationTitle + ".lnk";
@@ -476,15 +505,15 @@ namespace Arma3ModOptionMover
                     string targetPath = Application.ExecutablePath;
 
                     //作成
-                    Common.File.CreateShortcut( shortcutPath   : shortcutPath,
-                                                targetLinkPath : targetPath,
-                                                arguments      : CreatedShortCutArguments );
+                    Common.File.CreateShortcut( shortcutPath: shortcutPath ,
+                                                targetLinkPath: targetPath ,
+                                                arguments: CreatedShortCutArguments );
 
-                    bw.ReportProgress( 0, "" );
+                    bw.ReportProgress( 0 , "" );
                 }
 
                 //処理が終了しました。
-                bw.ReportProgress( 0, Resource.TextResource.LogTextFinish );
+                bw.ReportProgress( 0 , Resource.TextResource.LogTextFinish );
             }
             catch
             {
@@ -497,9 +526,9 @@ namespace Arma3ModOptionMover
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SetBackgroundWorker_ProgressChanged( object sender, ProgressChangedEventArgs e )
+        private void SetBackgroundWorker_ProgressChanged( object sender , ProgressChangedEventArgs e )
         {
-            this.LogListBox.Items.Add( ( string )e.UserState );
+            this.LogListBox.Items.Add( ( string ) e.UserState );
             this.LogListBox.SelectedIndex = this.LogListBox.Items.Count - 1;
         }
 
@@ -508,15 +537,15 @@ namespace Arma3ModOptionMover
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SetBackgroundWorker_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e )
+        private void SetBackgroundWorker_RunWorkerCompleted( object sender , RunWorkerCompletedEventArgs e )
         {
             if ( e.Error != null )
             {
-                MessageBox.Show( e.Error.Message,
-                                 this.Text,
-                                 MessageBoxButtons.OK,
+                MessageBox.Show( e.Error.Message ,
+                                 this.Text ,
+                                 MessageBoxButtons.OK ,
                                  MessageBoxIcon.Error );
-                        }
+            }
             else if ( e.Cancelled )
             {
                 //キャンセルされた（このプログラムでは存在しない）
@@ -531,37 +560,87 @@ namespace Arma3ModOptionMover
             //ボタン類を有効にする
             this.EnableButtons( true );
         }
+
+        /// <summary>
+        /// 前回処理した設定を元に戻す
+        /// </summary>
+        private void RestorePreviousSetting( BackgroundWorker bw )
+        {
+
+            //とりあえず処理しない
+            return;
+            
+            
+            //前回実施したMod名
+            string previousModName           = Properties.Settings.Default.PreviousModName;
+            //Option名
+            string previousModOptionPathName = Properties.Settings.Default.PreviousModOptionPathName;
+
+            if( previousModName .Equals("") || previousModOptionPathName .Equals(""))
+            {
+                return;
+            }
+
+            string[] modNames          = previousModName.Split('\t');
+            string[] modOptionPathName = previousModOptionPathName.Split('\t');
+
+            if ( modNames.Length == 0 || modNames.Length != modOptionPathName.Length )
+            {
+                //データ無いまたは数が合わないため、何もせず戻る
+                return;
+            }
+            bw.ReportProgress( 0 , "" );
+
+
+            for(int i=0;i< modNames.Length; i++ )
+            {
+                bw.ReportProgress( 0 , Resource.TextResource.LogTextRestore + "[" + modNames[i] + "]" );
+
+                var modSetting = new ModSetting();
+                modSetting.ModInfomation.ModName = modNames[i];
+                modSetting.ModInfomation.OptionalsPath = modOptionPathName[i];
+
+                //データ取得
+                modSetting.GetModInfo();
+
+                //Optionに存在し、Addonsにある場合はAddonsから消す
+                foreach ( string addonPbo in modSetting.AddonsPathInfo.PboFiles )
+                {
+                    string baseFile =  Common.File.GetFileName(addonPbo );
+                    if ( modSetting.OptionalPathInfo.ExistsPbo( baseFile ) )
+                    {
+                        //optionフォルダに存在するので削除
+                        foreach ( string file in Common.File.GetFileList( modSetting.AddonsPathInfo.FullPath, baseFile + "*", false ) )
+                        {
+                            Common.File.DeleteFile( file );
+                        }
+
+                    }
+
+
+                }
+                //_RemoveFile_に存在し、Addonsにない場合は、Addonsに移動し、_RemoveFile_から消す
+                foreach ( string removePbo in modSetting.RemovePathInfo.PboFiles )
+                {
+                    string baseFile =  Common.File.GetFileName(removePbo );
+                    if ( !modSetting.AddonsPathInfo.ExistsPbo( baseFile ) )
+                    {
+                        foreach ( string file in Common.File.GetFileList( modSetting.RemovePathInfo.FullPath, baseFile + "*", false ) )
+                        {
+                            //Addonsフィルダへコピー処理
+                            Common.File.CopyFile( file,
+                                                  Common.File.CombinePath( modSetting.AddonsPathInfo.FullPath,
+                                                                           Common.File.GetFileName( file ) ),
+                                                 true );
+                            //コピーできたら削除
+                            Common.File.DeleteFile( file );
+                        }
+                    }
+                }
+
+            }
+
+        }
+
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-#if false
-
-''' <summary>
-  ''' LogSeparator
-  ''' </summary>
-  Private Const LogSeparator As String = "--------------------------------------------"
-
-  ''' <summary>
-  ''' ログテキスト表示
-  ''' </summary>
-  ''' <param name="text"></param>
-  Private Sub AddLogText(Optional text As String = "")
-    Me.LogListBox.Items.Add(text)
-    Me.LogListBox.SelectedIndex = Me.LogListBox.Items.Count - 1
-  End Sub
-
-
-
-
-
-#endif

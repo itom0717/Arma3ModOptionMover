@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace Arma3ModOptionMover
 {
-   
+
     /// <summary>
     /// Mod設定情報
     /// </summary>
     public class ModSetting
     {
+        /// <summary>
+        /// Remove時の格納パス
+        /// </summary>
+        private const string RemovePath = "_RemoveFile_";
+
         /// <summary>
         /// Mod情報
         /// </summary>
@@ -44,8 +49,10 @@ namespace Arma3ModOptionMover
         /// <summary>
         /// MOD情報取得
         /// </summary>
-        public void GetModInfo() {
-            try {
+        public void GetModInfo()
+        {
+            try
+            {
 
                 // MODのフルパス
                 this.ModFullPath = Common.File.CombinePath( Common.File.GetApplicationDirectory() + "..",
@@ -78,14 +85,13 @@ namespace Arma3ModOptionMover
 
 
 
-                //Disableパス
-                this.RemovePathInfo.FullPath = Common.File.CombinePath( this.ModFullPath, "_disable" );
-                if ( !Common.File.ExistsDirectory( this.RemovePathInfo.FullPath ) )
-                {
-                    //ない場合は作成しておく
-                    Common.File.CreateDirectory( this.RemovePathInfo.FullPath );
-                }
-
+                //Removeパス
+                this.RemovePathInfo.FullPath = Common.File.CombinePath( this.ModFullPath, RemovePath );
+                //if ( !Common.File.ExistsDirectory( this.RemovePathInfo.FullPath ) )
+                //{
+                //    //ない場合は作成しておく
+                //    Common.File.CreateDirectory( this.RemovePathInfo.FullPath );
+                //}
 
 
                 //各フォルダ内のファイルを調査しておく

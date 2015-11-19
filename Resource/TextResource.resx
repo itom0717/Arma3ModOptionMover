@@ -135,16 +135,28 @@
   <data name="ErrMsgNotFoundModPath" xml:space="preserve">
     <value>MOD Path not found. ({0})</value>
   </data>
+  <data name="LogTextAddFile" xml:space="preserve">
+    <value>Add:</value>
+  </data>
   <data name="LogTextCreateShortCut" xml:space="preserve">
     <value>Create ShortCut</value>
   </data>
   <data name="LogTextFinish" xml:space="preserve">
     <value>Finish Process</value>
   </data>
+  <data name="LogTextRemoveFile" xml:space="preserve">
+    <value>Remove:</value>
+  </data>
+  <data name="LogTextRestore" xml:space="preserve">
+    <value>Restore:</value>
+  </data>
   <data name="LogTextStart" xml:space="preserve">
     <value>Start Process</value>
   </data>
   <data name="RemoveOptionText" xml:space="preserve">
     <value>Remove Option</value>
+  </data>
+  <data name="ServerNoName" xml:space="preserve">
+    <value>Server No Name</value>
   </data>
 </root>

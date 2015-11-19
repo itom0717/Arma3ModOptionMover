@@ -115,6 +115,15 @@ namespace Arma3ModOptionMover.Resource {
         }
         
         /// <summary>
+        ///   Add: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LogTextAddFile {
+            get {
+                return ResourceManager.GetString("LogTextAddFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Create ShortCut に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LogTextCreateShortCut {
@@ -133,6 +142,24 @@ namespace Arma3ModOptionMover.Resource {
         }
         
         /// <summary>
+        ///   Remove: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LogTextRemoveFile {
+            get {
+                return ResourceManager.GetString("LogTextRemoveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Restore: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LogTextRestore {
+            get {
+                return ResourceManager.GetString("LogTextRestore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Start Process に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LogTextStart {
@@ -147,6 +174,15 @@ namespace Arma3ModOptionMover.Resource {
         internal static string RemoveOptionText {
             get {
                 return ResourceManager.GetString("RemoveOptionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Server No Name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ServerNoName {
+            get {
+                return ResourceManager.GetString("ServerNoName", resourceCulture);
             }
         }
     }

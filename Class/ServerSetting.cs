@@ -11,10 +11,34 @@ namespace Arma3ModOptionMover
     /// </summary>
     class ServerSetting : List<ModSetting>
     {
+
+        /// <summary>
+        /// ダウンロードする場合ファイル名
+        /// </summary>
+        private const string DownloadTempFilename  ="_DownloadServerModSetting.cfg";
+
+
         /// <summary>
         /// サーバー名
         /// </summary>
-        public string ServerName { get; private set; } = "";
+        public string ServerName
+        {
+            get {
+                if ( this._ServerName.Equals(""))
+                {
+                    return Resource.TextResource.ServerNoName;
+                }
+                else
+                {
+                    return this._ServerName;
+                }
+            }
+            private set {
+                this._ServerName = value;
+            }
+        }
+        private string _ServerName = "";
+
 
         /// <summary>
         /// サーバー設定情報取得
@@ -23,6 +47,8 @@ namespace Arma3ModOptionMover
         {
             try
             {
+                this.Clear();
+
                 //Mod情報
                 ModSetting modSetting = null;
 
@@ -49,6 +75,45 @@ namespace Arma3ModOptionMover
                             continue;
                         }
 
+
+                        //URL(ダウンロード先指定)
+                        //これがあれば以下のデータがあっても読み取らず、ファイルをダウンロードしてそちらを使用する
+                        {
+                            var r = new System.Text.RegularExpressions.Regex( @"^URL\s*=\s*(.+)" );
+                            System.Text.RegularExpressions.Match m  = r.Match( line );
+                            if ( m.Success )
+                            {
+                                try
+                                {
+                                    //ダウンロード
+
+                                    //ファイル名
+                                    string downloadTempFilename
+                                        = Common.File.CombinePath(Common.File.GetDirectoryName(filename),
+                                                                  DownloadTempFilename);
+
+                                    Common.File.DeleteFile( downloadTempFilename );//削除
+                                    using ( var wc = new System.Net.WebClient() )
+                                    {
+                                        wc.DownloadFile( m.Groups[1].ToString() , downloadTempFilename );//ダウンロード
+                                        wc.Dispose();
+                                    }
+
+                                    //DLできたので、このファイル名でデータ読込
+                                    this.GetServerSetting( downloadTempFilename );
+
+                                    //ここで戻る
+                                    return;
+                                }
+                                catch
+                                {
+                                    //nop
+                                    throw;
+                                }
+                            }
+                        }
+
+
                         //解析
                         //ServerInfo
                         {
@@ -60,7 +125,6 @@ namespace Arma3ModOptionMover
                                 this.ServerName = m.Groups[1].ToString();
                             }
                         }
-
 
                         //MOD名
                         {
@@ -121,7 +185,7 @@ namespace Arma3ModOptionMover
                     //閉じる
                     sr.Close();
 
-                    //追加していなければついかする
+                    //追加していなければ追加する
                     if ( modSetting != null )
                     {
                         //リストに追加

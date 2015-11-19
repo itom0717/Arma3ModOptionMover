@@ -29,7 +29,14 @@ namespace Arma3ModOptionMover
         public void SearchPboFile()
         {
             //ファイル一覧取得
-            this.PboFiles = Common.File.GetFileList( this.FullPath, "*.pbo", false );
+            if ( Common.File.ExistsDirectory( this.FullPath ) )
+            {
+                this.PboFiles = Common.File.GetFileList( this.FullPath, "*.pbo", false );
+            }
+            else
+            {
+                this.PboFiles = new List<string>();
+            }
         }
 
         /// <summary>

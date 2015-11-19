@@ -385,7 +385,7 @@ namespace Common
         /// <returns>検索結果のリスト</returns>
         public static List<String> GetFileList( string targetPath ,
                                                 string wildcards ,
-                                                bool findSubDir = false )
+                                                bool   findSubDir = false )
         {
 
             if ( String.IsNullOrEmpty( targetPath ) )
@@ -825,7 +825,6 @@ namespace Common
             path = u.LocalPath + Uri.UnescapeDataString( u.Fragment );
             return File.GetDirectoryName( path );
         }
-
 
 
     }
