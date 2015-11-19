@@ -568,9 +568,8 @@ namespace Arma3ModOptionMover
         {
 
             //とりあえず処理しない
-            return;
-            
-            
+#if false
+
             //前回実施したMod名
             string previousModName           = Properties.Settings.Default.PreviousModName;
             //Option名
@@ -640,7 +639,8 @@ namespace Arma3ModOptionMover
 
             }
 
-        }
+#endif
+    }
 
     }
 }
