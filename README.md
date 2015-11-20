@@ -12,13 +12,12 @@ Arma3 Mod Option Mover
 ## 使い方
 
 
-未作成いずれ作成
-
-
-
-
-
-
+準備  (サーバー管理者向け)  
++ Play WithSixへ設定ファイルをアップロードします。    
+    + フォルダ名を @ Arma3ModOptionMover_(ServerNamer) とする。  
+　・(ServerNamer)には任意ですが、サーバー名を入れると良いでしょう。  
++ @Arma3ModOptionMover と @Arma3ModOptionMover_(ServerNamer)  をレポジトリに登録  
+3.Play withSix にてダウンロード（以下のようになるはず）  
 
 ***
 MODフォルダ  
@@ -29,16 +28,12 @@ MODフォルダ
 　　　　+-- addons  
 　　　　+-- optional  
 　　+-- @Arma3ModOptionMover  
-　　　　+-- Arma3ModOptionMover.exe      <---- このファイルを実行  
-　　　　+-- ServerList.cfg               <---- サーバー設定ファイル  
-　　　　+-- ServerSetting.cfg            <---- 自動でダウンロードされます  
-　　+-- @Arma3ModOptionMover_serverName  <---- サーバー管理者が各自PwSへアップしてください。 
-　　　　+-- ServerSetting.cfg            <---- サーバー管理者が各自PwSへアップしてください。 
+　　　　+-- Arma3ModOptionMover.exe       <---- このファイルを実行  
+　　+-- @Arma3ModOptionMover_(ServerNamer)  
+　　　　+-- ServerSetting.cfg  
 
 ***
 
-##リセット機能
-リセット機能は、ありませんので もとに戻す場合は、Play withSixにて Diagnose してください。
 
 ## Licence
 * MIT  

@@ -678,11 +678,38 @@ namespace Arma3ModOptionMover
                         //追加ファイルの移動
                         if ( isAdd )
                         {
+                            //Optionに存在し、Addonsにある場合はAddonsから消す
+                            if ( modSetting.OptionalPathInfo.ExistsPbo( line ) )
+                            {
+                                string tgtFile = Common.File.CombinePath( modSetting.AddonsPathInfo.FullPath, line );
+                                Common.File.DeleteFile( Common.File.CombinePath( tgtFile, line ) );
+                            }
+
                         }
 
                         //削除ファイルの復帰
                         if ( isRemove )
                         {
+                            //Removeに存在し、Addonsにない場合は、Addonsに移動し、Removから消す
+                            if ( !modSetting.AddonsPathInfo.ExistsPbo( line ) )
+                            {
+                                string tgtFile = Common.File.CombinePath( modSetting.RemovePathInfo.FullPath, line );
+                                if ( Common.File.ExistsFile( tgtFile ) )
+                                {
+
+                                    //Addonsフィルダへコピー処理
+                                    Common.File.CopyFile( tgtFile,
+                                                          Common.File.CombinePath( modSetting.AddonsPathInfo.FullPath,
+                                                                                   Common.File.GetFileName( tgtFile ) ),
+                                                         true );
+                                    //コピーできたら削除
+                                    Common.File.DeleteFile( tgtFile );
+
+                                }
+
+
+                            }
+
                         }
 
 
@@ -692,44 +719,6 @@ namespace Arma3ModOptionMover
                     sr.Close();
                 }
 
-
-
-
-
-                ////Optionに存在し、Addonsにある場合はAddonsから消す
-                //foreach ( string addonPbo in modSetting.AddonsPathInfo.PboFiles )
-                //{
-                //    string baseFile =  Common.File.GetFileName(addonPbo );
-                //    if ( modSetting.OptionalPathInfo.ExistsPbo( baseFile ) )
-                //    {
-                //        //optionフォルダに存在するので削除
-                //        foreach ( string file in Common.File.GetFileList( modSetting.AddonsPathInfo.FullPath, baseFile + "*", false ) )
-                //        {
-                //            Common.File.DeleteFile( file );
-                //        }
-
-                //    }
-
-
-                //}
-                ////_RemoveFile_に存在し、Addonsにない場合は、Addonsに移動し、_RemoveFile_から消す
-                //foreach ( string removePbo in modSetting.RemovePathInfo.PboFiles )
-                //{
-                //    string baseFile =  Common.File.GetFileName(removePbo );
-                //    if ( !modSetting.AddonsPathInfo.ExistsPbo( baseFile ) )
-                //    {
-                //        foreach ( string file in Common.File.GetFileList( modSetting.RemovePathInfo.FullPath, baseFile + "*", false ) )
-                //        {
-                //            //Addonsフィルダへコピー処理
-                //            Common.File.CopyFile( file,
-                //                                  Common.File.CombinePath( modSetting.AddonsPathInfo.FullPath,
-                //                                                           Common.File.GetFileName( file ) ),
-                //                                 true );
-                //            //コピーできたら削除
-                //            Common.File.DeleteFile( file );
-                //        }
-                //    }
-                //}
 
             }
 

@@ -123,6 +123,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="README.md" />
+    <None Include="sample_ServerModSetting.cfg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
