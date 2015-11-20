@@ -42,7 +42,7 @@ MODフォルダ
 1. sample_ServerModSetting.cfg を参考に設定ファイルを作成します。
 2. Arma3Modフォルダに @ Arma3ModOptionMover_(ServerName) を作成する。
 3. 作成したフォルダ内に設定ファイルを入れる
-3. @Arma3ModOptionMover をPlay withSix にてダウンロード  
+3. @Arma3ModOptionMover をPlay withSix または、GitHubよりダウンロード  
 5. @Arma3ModOptionMover 内の　Arma3ModOptionMover.exeを実行します。
 
 
