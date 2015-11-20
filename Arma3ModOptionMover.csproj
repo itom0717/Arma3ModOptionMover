@@ -47,7 +47,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon\Application.ico</ApplicationIcon>
+    <ApplicationIcon>Application.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
@@ -128,6 +128,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Application.ico" />
     <Content Include="HISTORY.txt" />
     <Content Include="icon\Application.ico" />
     <Content Include="LICENSE.txt" />

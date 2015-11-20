@@ -13,9 +13,19 @@ namespace Arma3ModOptionMover
     public class ModSetting
     {
         /// <summary>
+        /// Logの格納パス(optionフォルダ内に作成)
+        /// </summary>
+        private const string LogPath = "_Arma3ModOptionMover_";
+
+        /// <summary>
+        /// ログファイル名
+        /// </summary>
+        public const string LogFilename = "Arma3ModOptionMover.log";
+
+        /// <summary>
         /// Remove時の格納パス
         /// </summary>
-        private const string RemovePath = "_RemoveFile_";
+        private const string RemovePath = "Remove";
 
         /// <summary>
         /// Mod情報
@@ -26,7 +36,7 @@ namespace Arma3ModOptionMover
         /// MODのフルパス
         /// </summary>
         /// <returns></returns>
-        public string ModFullPath { get; set; } = "";
+        public string ModFullPath { get; private set; } = "";
 
         /// <summary>
         /// addons パス情報
@@ -39,6 +49,18 @@ namespace Arma3ModOptionMover
         /// </summary>
         /// <returns></returns>
         public ModPath OptionalPathInfo { get; } = new ModPath();
+
+        /// <summary>
+        /// log格納 パス情報
+        /// </summary>
+        /// <returns></returns>
+        public string ModLogPath { get; private set; } = "";
+
+        /// <summary>
+        /// logファイル名
+        /// </summary>
+        /// <returns></returns>
+        public string ModLogFilename { get; private set; } = "";
 
         /// <summary>
         ///  Disable パス情報
@@ -84,15 +106,13 @@ namespace Arma3ModOptionMover
                 }
 
 
-
+                //Log格納パス
+                this.ModLogPath = Common.File.CombinePath( this.OptionalPathInfo.FullPath, LogPath );
+                  //Logファイル名
+                this.ModLogFilename  = Common.File.CombinePath( this.ModLogPath, LogFilename );
                 //Removeパス
-                this.RemovePathInfo.FullPath = Common.File.CombinePath( this.ModFullPath, RemovePath );
-                //if ( !Common.File.ExistsDirectory( this.RemovePathInfo.FullPath ) )
-                //{
-                //    //ない場合は作成しておく
-                //    Common.File.CreateDirectory( this.RemovePathInfo.FullPath );
-                //}
-
+                this.RemovePathInfo.FullPath = Common.File.CombinePath( this.ModLogPath, RemovePath );
+ 
 
                 //各フォルダ内のファイルを調査しておく
                 this.AddonsPathInfo.SearchPboFile();

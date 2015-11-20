@@ -19,7 +19,7 @@ namespace Arma3ModOptionMover
         /// <summary>
         /// ショートカット作成済みオプション
         /// </summary>
-        private  static string CreatedShortCutArguments  = "/s";
+        private const string CreatedShortCutArguments  = "/s";
 
         /// <summary>
         /// サーバー設定情報リスト
@@ -399,6 +399,17 @@ namespace Arma3ModOptionMover
         private const string LogSeparator = "--------------------------------------------";
 
         /// <summary>
+        /// 追加ログのテキスト
+        /// </summary>
+        private const string LogTextAdd  = "ADD";
+
+        /// <summary>
+        /// 削除ログのテキスト
+        /// </summary>
+        private const string LogTextRemove  = "REMOVE";
+
+
+        /// <summary>
         /// SetBackgroundWorker_DoWork
         /// </summary>
         /// <param name="sender"></param>
@@ -425,7 +436,7 @@ namespace Arma3ModOptionMover
                 /// </summary>
                 this.RestorePreviousSetting( bw );
 
-                //今回処理したMod名記憶要
+                //今回処理したMod名記憶
                 var modNameList   = new List<string>();
                 var modoptionList = new List<string>();
 
@@ -440,49 +451,78 @@ namespace Arma3ModOptionMover
                     bw.ReportProgress( 0 , "[" + modSetting.ModInfomation.ModName + "]" );
                     bw.ReportProgress( 0 , "" );
 
-                    //追加ファイルの処理
-                    foreach ( string tgtFile in modSetting.ModInfomation.AddFile )
-                    {
-                        //optionフォルダからAddonsフォルダへコピー
-                        foreach ( string file in Common.File.GetFileList( modSetting.OptionalPathInfo.FullPath , tgtFile + "*" , false ) )
-                        {
-                            bw.ReportProgress( 0 , Resource.TextResource.LogTextAddFile + Common.File.GetFileName( file ) );
 
-                            //Addonsフィルダへコピー処理
-                            Common.File.CopyFile( file ,
-                                                  Common.File.CombinePath( modSetting.AddonsPathInfo .FullPath ,
-                                                                           Common.File.GetFileName( file ) ) ,
-                                                  true );
-                        }
+                    //ログ格納フォルダを作成しておく
+                    if ( !Common.File.ExistsDirectory( modSetting.ModLogPath ) )
+                    {
+                        //ない場合は作成しておく
+                        Common.File.CreateDirectory( modSetting.ModLogPath );
                     }
-                    bw.ReportProgress( 0 , "" );
 
-                    //削除ファイルの処理
-                    foreach ( string tgtFile in modSetting.ModInfomation.RemoveFile )
+                    //ログファイル書き込みオープン
+                    using ( var sw = new System.IO.StreamWriter( modSetting.ModLogFilename, false,  System.Text.Encoding.UTF8 ) )
                     {
-                        //Addonsフィルダから無効フォルダへ移動
-                        foreach ( string file in Common.File.GetFileList( modSetting.AddonsPathInfo .FullPath , tgtFile + "*" , false ) )
-                        {
-                            bw.ReportProgress( 0 , Resource.TextResource.LogTextRemoveFile + Common.File.GetFileName( file ) );
+                        sw.AutoFlush = true;
+                        sw.WriteLine( modSetting.ModInfomation.ModName  );//Mod名
+                        sw.WriteLine( modSetting.AddonsPathInfo.FullPath  );//Addons Path
+                        sw.WriteLine( modSetting.OptionalPathInfo.FullPath );//Optional Path
+                        sw.WriteLine( modSetting.RemovePathInfo.FullPath  );//Remove　Path
+                        sw.WriteLine( "" );
 
-                            if ( !Common.File.ExistsDirectory( modSetting.RemovePathInfo.FullPath ) )
+                        //追加ファイルの処理
+                        sw.WriteLine( LogTextAdd );
+                        foreach ( string tgtFile in modSetting.ModInfomation.AddFile )
+                        {
+                            //optionフォルダからAddonsフォルダへコピー
+                            foreach ( string file in Common.File.GetFileList( modSetting.OptionalPathInfo.FullPath, tgtFile + "*", false ) )
                             {
-                                //ない場合は作成しておく
-                                Common.File.CreateDirectory( modSetting.RemovePathInfo.FullPath );
+                                bw.ReportProgress( 0, Resource.TextResource.LogTextAddFile + Common.File.GetFileName( file ) );
+
+                                //Addonsフィルダへコピー処理
+                                Common.File.CopyFile( file,
+                                                      Common.File.CombinePath( modSetting.AddonsPathInfo.FullPath,
+                                                                               Common.File.GetFileName( file ) ),
+                                                      true );
+                                sw.WriteLine( "" + Common.File.GetFileName( file ) );
+
                             }
-
-
-                            //Removeフィルダへコピー処理
-                            Common.File.CopyFile( file ,
-                                                  Common.File.CombinePath( modSetting.RemovePathInfo.FullPath ,
-                                                                           Common.File.GetFileName( file ) ) ,
-                                                  true );
-                            //コピーできたら削除
-                            Common.File.DeleteFile( file );
                         }
+                        bw.ReportProgress( 0, "" );
+                        sw.WriteLine( "" );
+
+                        //削除ファイルの処理
+                        sw.WriteLine( LogTextRemove );
+                        foreach ( string tgtFile in modSetting.ModInfomation.RemoveFile )
+                        {
+                            //Addonsフィルダから無効フォルダへ移動
+                            foreach ( string file in Common.File.GetFileList( modSetting.AddonsPathInfo.FullPath, tgtFile + "*", false ) )
+                            {
+                                bw.ReportProgress( 0, Resource.TextResource.LogTextRemoveFile + Common.File.GetFileName( file ) );
+
+                                if ( !Common.File.ExistsDirectory( modSetting.RemovePathInfo.FullPath ) )
+                                {
+                                    //ない場合は作成しておく
+                                    Common.File.CreateDirectory( modSetting.RemovePathInfo.FullPath );
+                                }
+
+
+                                //Removeフィルダへコピー処理
+                                Common.File.CopyFile( file,
+                                                      Common.File.CombinePath( modSetting.RemovePathInfo.FullPath,
+                                                                               Common.File.GetFileName( file ) ),
+                                                      true );
+                                //コピーできたら削除
+                                Common.File.DeleteFile( file );
+
+                                sw.WriteLine( "" + Common.File.GetFileName( file ) );
+                            }
+                        }
+                        bw.ReportProgress( 0, "" );
+                        bw.ReportProgress( 0, "" );
+
+                     sw.Close();
                     }
-                    bw.ReportProgress( 0 , "" );
-                    bw.ReportProgress( 0 , "" );
+
                 }
 
 
@@ -567,9 +607,6 @@ namespace Arma3ModOptionMover
         private void RestorePreviousSetting( BackgroundWorker bw )
         {
 
-            //とりあえず処理しない
-#if false
-
             //前回実施したMod名
             string previousModName           = Properties.Settings.Default.PreviousModName;
             //Option名
@@ -591,9 +628,9 @@ namespace Arma3ModOptionMover
             bw.ReportProgress( 0 , "" );
 
 
-            for(int i=0;i< modNames.Length; i++ )
+            for ( int i = 0; i < modNames.Length; i++ )
             {
-                bw.ReportProgress( 0 , Resource.TextResource.LogTextRestore + "[" + modNames[i] + "]" );
+                bw.ReportProgress( 0, Resource.TextResource.LogTextRestore + "[" + modNames[i] + "]" );
 
                 var modSetting = new ModSetting();
                 modSetting.ModInfomation.ModName = modNames[i];
@@ -601,46 +638,103 @@ namespace Arma3ModOptionMover
 
                 //データ取得
                 modSetting.GetModInfo();
-
-                //Optionに存在し、Addonsにある場合はAddonsから消す
-                foreach ( string addonPbo in modSetting.AddonsPathInfo.PboFiles )
+                if ( !Common.File.ExistsDirectory( modSetting.ModLogPath ) )
                 {
-                    string baseFile =  Common.File.GetFileName(addonPbo );
-                    if ( modSetting.OptionalPathInfo.ExistsPbo( baseFile ) )
+                    //ログフォルダが存在しない場合は何もしない
+                    continue;
+                }
+                if ( !Common.File.ExistsFile ( modSetting.ModLogFilename ) )
+                {
+                    //ログファイルが存在しない場合は何もしない
+                    continue;
+                }
+
+                //ファイルを調査
+                using ( var sr = new System.IO.StreamReader( modSetting.ModLogFilename, System.Text.Encoding.UTF8 ) )
+                {
+                    //内容を一行ずつ読み込む
+                    bool isAdd    = false;
+                    bool isRemove = false;
+                    while ( sr.Peek() > -1 )
                     {
-                        //optionフォルダに存在するので削除
-                        foreach ( string file in Common.File.GetFileList( modSetting.AddonsPathInfo.FullPath, baseFile + "*", false ) )
+                        string line = sr.ReadLine();
+
+                        //先頭と最後の空白を取り除く
+                        line = line.Trim();
+
+                        if ( line .Equals( LogTextAdd ) )
                         {
-                            Common.File.DeleteFile( file );
+                            isAdd    = true;
+                            isRemove = false;
+                            continue;
                         }
+                        if ( line.Equals( LogTextRemove ) )
+                        {
+                            isAdd    = false;
+                            isRemove = true;
+                            continue;
+                        }
+
+                        //追加ファイルの移動
+                        if ( isAdd )
+                        {
+                        }
+
+                        //削除ファイルの復帰
+                        if ( isRemove )
+                        {
+                        }
+
+
 
                     }
 
+                    sr.Close();
+                }
 
-                }
-                //_RemoveFile_に存在し、Addonsにない場合は、Addonsに移動し、_RemoveFile_から消す
-                foreach ( string removePbo in modSetting.RemovePathInfo.PboFiles )
-                {
-                    string baseFile =  Common.File.GetFileName(removePbo );
-                    if ( !modSetting.AddonsPathInfo.ExistsPbo( baseFile ) )
-                    {
-                        foreach ( string file in Common.File.GetFileList( modSetting.RemovePathInfo.FullPath, baseFile + "*", false ) )
-                        {
-                            //Addonsフィルダへコピー処理
-                            Common.File.CopyFile( file,
-                                                  Common.File.CombinePath( modSetting.AddonsPathInfo.FullPath,
-                                                                           Common.File.GetFileName( file ) ),
-                                                 true );
-                            //コピーできたら削除
-                            Common.File.DeleteFile( file );
-                        }
-                    }
-                }
+
+
+
+
+                ////Optionに存在し、Addonsにある場合はAddonsから消す
+                //foreach ( string addonPbo in modSetting.AddonsPathInfo.PboFiles )
+                //{
+                //    string baseFile =  Common.File.GetFileName(addonPbo );
+                //    if ( modSetting.OptionalPathInfo.ExistsPbo( baseFile ) )
+                //    {
+                //        //optionフォルダに存在するので削除
+                //        foreach ( string file in Common.File.GetFileList( modSetting.AddonsPathInfo.FullPath, baseFile + "*", false ) )
+                //        {
+                //            Common.File.DeleteFile( file );
+                //        }
+
+                //    }
+
+
+                //}
+                ////_RemoveFile_に存在し、Addonsにない場合は、Addonsに移動し、_RemoveFile_から消す
+                //foreach ( string removePbo in modSetting.RemovePathInfo.PboFiles )
+                //{
+                //    string baseFile =  Common.File.GetFileName(removePbo );
+                //    if ( !modSetting.AddonsPathInfo.ExistsPbo( baseFile ) )
+                //    {
+                //        foreach ( string file in Common.File.GetFileList( modSetting.RemovePathInfo.FullPath, baseFile + "*", false ) )
+                //        {
+                //            //Addonsフィルダへコピー処理
+                //            Common.File.CopyFile( file,
+                //                                  Common.File.CombinePath( modSetting.AddonsPathInfo.FullPath,
+                //                                                           Common.File.GetFileName( file ) ),
+                //                                 true );
+                //            //コピーできたら削除
+                //            Common.File.DeleteFile( file );
+                //        }
+                //    }
+                //}
 
             }
 
-#endif
-    }
+
+        }
 
     }
 }
