@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 namespace Arma3ModOptionMover
 {
+
     static class Program
     {
         /// <summary>
