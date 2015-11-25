@@ -345,12 +345,26 @@ namespace Arma3ModOptionMover
             this.GetModInfoButton.Enabled = isEnable;
             this.CreateShortCutCheckBox.Enabled = isEnable;
             this.CloseButton.Enabled = isEnable;
+            this.ResetButton.Enabled = isEnable;
 
             if ( this.ModTreeView.Nodes.Count <= 0 )
             {
                 //0件の場合は処理実行ボタンを無効にする
                 this.OKButton.Enabled = false;
             }
+
+
+            if( isEnable )
+            {
+                //前回実施したMod名が空欄の場合リセットボタンを無効
+                if ( Properties.Settings.Default.PreviousModName.Equals( "" ) || Properties.Settings.Default.PreviousModOptionPathName.Equals( "" ) )
+                {
+                    this.ResetButton.Enabled = false;
+                }
+            }
+
+
+
         }
 
 
@@ -721,9 +735,89 @@ namespace Arma3ModOptionMover
 
 
             }
+            bw.ReportProgress( 0, "" );
+            Properties.Settings.Default.PreviousModName = "";
+            Properties.Settings.Default.PreviousModOptionPathName = "";
+            Properties.Settings.Default.Save();
 
 
         }
+
+        /// <summary>
+        /// リセットボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResetButton_Click( object sender, EventArgs e )
+        {
+
+            // Mod情報更新
+            this.UpdateModTreeView();
+
+            //実行確認
+            if ( MessageBox.Show( Resource.TextResource.ConfirmationMessageReset,
+                                  this.ApplicationTitle,
+                                  MessageBoxButtons.OKCancel,
+                                  MessageBoxIcon.Question ) != DialogResult.OK )
+            {
+                return;
+            }
+
+            //ボタン類を無効にする
+            this.EnableButtons( false );
+
+            //ログエリアクリア
+            this.LogListBox.Items.Clear();
+
+            //バックグラウンド処理を開始する
+            this.ResetBackgroundWorker.WorkerReportsProgress = true;
+            this.ResetBackgroundWorker.RunWorkerAsync();
+        }
+
+
+
+        /// <summary>
+        /// SetBackgroundWorker_DoWork
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResetBackgroundWorker_DoWork( object sender, DoWorkEventArgs e )
+        {
+            try
+            {
+                //BackgroundWorker
+                BackgroundWorker bw = (BackgroundWorker)sender;
+
+                //ProgressChangedイベントハンドラを呼び出し、
+                //コントロールの表示を変更する
+                bw.ReportProgress( 0, LogSeparator );
+                bw.ReportProgress( 0, Resource.TextResource.LogTextStart );
+                bw.ReportProgress( 0, LogSeparator );
+                bw.ReportProgress( 0, "" );
+
+                /// 前回処理した設定を元に戻す
+                /// </summary>
+                this.RestorePreviousSetting( bw );
+                                
+                //処理が終了しました。
+                bw.ReportProgress( 0, Resource.TextResource.LogTextFinish );
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }

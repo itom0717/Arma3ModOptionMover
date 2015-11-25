@@ -121,7 +121,10 @@
     <value>ADD Option</value>
   </data>
   <data name="ConfirmationMessageGo" xml:space="preserve">
-    <value>Do you want to run the process?</value>
+    <value>Do you want to run?</value>
+  </data>
+  <data name="ConfirmationMessageReset" xml:space="preserve">
+    <value>Do you want to reset?</value>
   </data>
   <data name="ErrMsgNoServerList" xml:space="preserve">
     <value>There is no server list.</value>

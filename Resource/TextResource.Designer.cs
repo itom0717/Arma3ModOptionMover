@@ -70,11 +70,20 @@ namespace Arma3ModOptionMover.Resource {
         }
         
         /// <summary>
-        ///   Do you want to run the process? に類似しているローカライズされた文字列を検索します。
+        ///   Do you want to run? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmationMessageGo {
             get {
                 return ResourceManager.GetString("ConfirmationMessageGo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Do you want to reset? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmationMessageReset {
+            get {
+                return ResourceManager.GetString("ConfirmationMessageReset", resourceCulture);
             }
         }
         

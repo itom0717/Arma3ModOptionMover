@@ -121,7 +121,10 @@
     <value>追加オプション</value>
   </data>
   <data name="ConfirmationMessageGo" xml:space="preserve">
-    <value>処理を実行しますか？</value>
+    <value>実行しますか？</value>
+  </data>
+  <data name="ConfirmationMessageReset" xml:space="preserve">
+    <value>リセットしますか？</value>
   </data>
   <data name="ErrMsgNoServerList" xml:space="preserve">
     <value>サーバー一覧リストがありません。</value>

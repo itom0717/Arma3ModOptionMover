@@ -40,6 +40,8 @@
             this.GetModInfoButton = new System.Windows.Forms.Button();
             this.SetBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.ServerListComboBox = new System.Windows.Forms.ComboBox();
+            this.ResetButton = new System.Windows.Forms.Button();
+            this.ResetBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.LoadingPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -116,10 +118,24 @@
             this.ServerListComboBox.Name = "ServerListComboBox";
             this.ServerListComboBox.SelectedIndexChanged += new System.EventHandler(this.ServerListComboBox_SelectedIndexChanged);
             // 
+            // ResetButton
+            // 
+            resources.ApplyResources(this.ResetButton, "ResetButton");
+            this.ResetButton.Name = "ResetButton";
+            this.ResetButton.UseVisualStyleBackColor = true;
+            this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
+            // 
+            // ResetBackgroundWorker
+            // 
+            this.ResetBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ResetBackgroundWorker_DoWork);
+            this.ResetBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.SetBackgroundWorker_ProgressChanged);
+            this.ResetBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.SetBackgroundWorker_RunWorkerCompleted);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.LoadingPictureBox);
             this.Controls.Add(this.ModTreeView);
             this.Controls.Add(this.CreateShortCutCheckBox);
@@ -151,6 +167,8 @@
         internal System.Windows.Forms.Button GetModInfoButton;
         internal System.ComponentModel.BackgroundWorker SetBackgroundWorker;
         internal System.Windows.Forms.ComboBox ServerListComboBox;
+        internal System.Windows.Forms.Button ResetButton;
+        private System.ComponentModel.BackgroundWorker ResetBackgroundWorker;
     }
 }
 

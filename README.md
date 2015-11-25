@@ -14,7 +14,7 @@ Arma3 Mod Option Mover
 
 ###サーバー管理者向け  
 1. sample_ServerModSetting.cfg を参考に設定ファイルを作成します。
-2. Play WithSixへ作成した設定ファイルをアップロード  
+2. Play WithSIXへ作成した設定ファイルをアップロード  
   ・フォルダ名を @ Arma3ModOptionMover_(ServerName) とする。  
 　・(ServerNamer)には任意ですが、サーバー名を入れると良いでしょう。  
 　・ファイル名は ServerModSetting.cfg とします。
@@ -51,9 +51,23 @@ MODフォルダ
 
 ##リストア機能（テスト機能）
 実行時に前回に移動した処理を一旦もとに戻してから新たにファイルを移動します。  
+設定が異なるサーバーで交互にPlayする場合に Play withSIXにて Diagnose　する必要がありません。  
+
+※Arma3 Mod Option Moverで移動したファイルのみ戻すことができます。   
+※テスト機能ですのでファイルの状態がおかしくおかしくなった場合はPlay withSIXでDiagnoseを実施してください。
+
+##リセット機能（テスト機能）
+リセットボタンを押すとArma3 Mod Option Moverで移動したファイルを元に戻します。  
 設定が異なるサーバーで交互にPlayする場合に Play withSixにて Diagnose　する必要がありません。  
 
-※ファイルの状態がおかしくおかしくなった場合、Diagnoseを実施してください。
+※Arma3 Mod Option Moverで移動したファイルのみ戻すことができます。   
+※テスト機能ですのでファイルの状態がおかしくおかしくなった場合はPlay withSIXでDiagnoseを実施してください。
+
+
+
+
+
+
 
 
 
