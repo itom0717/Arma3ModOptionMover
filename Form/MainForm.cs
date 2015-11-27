@@ -49,6 +49,16 @@ namespace Arma3ModOptionMover
         {
             //EventHandler
 
+
+            //旧バージョンの値を引き継ぐ
+            if ( Properties.Settings.Default.UpdateRequired )
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.UpdateRequired = false;
+                Properties.Settings.Default.Save();
+            }
+
+
             // 現在実行しているアセンブリ(.exeのアセンブリ)を取得する
             var assm = System.Reflection.Assembly.GetExecutingAssembly();
             // AssemblyNameを取得する
